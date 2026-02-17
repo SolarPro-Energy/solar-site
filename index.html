@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarPro — Енергетичні та інженерні системи</title>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --white: #ffffff;
+            --green: #10b981;
+            --blue: #3b82f6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* ── Navigation ── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0 2rem;
+            transition: box-shadow 0.3s;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .burger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .burger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(15,23,42,0.92), rgba(30,41,59,0.88)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%230f172a" width="1200" height="800"/><polygon fill="%23f59e0b" opacity="0.05" points="0,800 400,400 800,600 1200,300 1200,800"/><polygon fill="%23f59e0b" opacity="0.03" points="0,800 200,500 600,700 1000,400 1200,800"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245,158,11,0.15), transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            color: var(--primary);
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: var(--gray-light);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--darker);
+            box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 20px rgba(245,158,11,0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--gray);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sun-icon {
+            width: 320px;
+            height: 320px;
+            position: relative;
+        }
+
+        .sun-icon svg.sun-core {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── Stats bar ── */
+        .stats-bar {
+            background: var(--darker);
+            padding: 3rem 2rem;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--gray-light);
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        /* ── Sections ── */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-dark {
+            background: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(245,158,11,0.1);
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ── Service Tabs ── */
+        .services-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--gray-light);
+            background: var(--white);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-dark);
+            border-color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--darker);
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+        }
+
+        .tab-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInTab 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Services ── */
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--gray-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(245,158,11,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .service-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .service-card ul li {
+            padding: 0.3rem 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* ── Why us ── */
+        .benefits-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            display: flex;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+            transition: box-shadow 0.3s;
+        }
+
+        .benefit-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .benefit-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            color: var(--dark);
+        }
+
+        .benefit-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* ── Process ── */
+        .process-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            position: relative;
+        }
+
+        .process-grid::before {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: 12%;
+            right: 12%;
+            height: 2px;
+            background: var(--gray-light);
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            color: var(--darker);
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+        }
+
+        .process-step h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            color: var(--dark);
+        }
+
+        .process-step p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* ── Pricing ── */
+        .pricing-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            border: 2px solid var(--gray-light);
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Популярний';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: var(--darker);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.03);
+            border-color: var(--primary);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.07);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .pricing-card .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 1rem 0;
+        }
+
+        .pricing-card .price small {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 1.5rem 0;
+        }
+
+        .pricing-card ul li {
+            padding: 0.5rem 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--gray-light);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pricing-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* ── FAQ ── */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border: 1px solid var(--gray-light);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background: var(--white);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s;
+            font-family: inherit;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-dark);
+        }
+
+        .faq-question .arrow {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .faq-item.active .faq-question .arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer p {
+            padding: 0 1.5rem 1.2rem;
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* ── Contact ── */
+        .contact-section {
+            background: var(--darker);
+            color: var(--white);
+        }
+
+        .contact-section .section-header h2 {
+            color: var(--white);
+        }
+
+        .contact-section .section-header p {
+            color: var(--gray-light);
+        }
+
+        .contact-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .contact-item-icon {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            background: rgba(245,158,11,0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-item p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .contact-item a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: var(--gray);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .contact-form select option {
+            background: var(--darker);
+            color: var(--white);
+        }
+
+        .contact-form select optgroup {
+            background: var(--darker);
+            color: var(--gray);
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form .btn-primary {
+            align-self: flex-start;
+            padding: 1rem 3rem;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--dark);
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text p {
+                margin: 0 auto 2rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .services-grid,
+            .tab-content.active {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--darker);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .services-grid,
+            .benefits-grid,
+            .tab-content.active {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .services-tabs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .tab-btn {
+                justify-content: center;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .process-grid::before {
+                display: none;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: scale(1.02);
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .calc-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">Solar<span>Pro</span> <small style="font-size:0.55em;color:var(--gray-light);font-weight:400;">енергетика & інженерні системи</small></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#services">Послуги</a></li>
+            <li><a href="#benefits">Переваги</a></li>
+            <li><a href="#process">Як працюємо</a></li>
+            <li><a href="#pricing">Ціни</a></li>
+            <li><a href="#portfolio">Портфоліо</a></li>
+            <li><a href="#calculator">Калькулятор</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Контакти</a></li>
+        </ul>
+        <button class="burger" id="burger" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>Енергонезалежність та <span>інженерні системи</span> під ключ</h1>
+            <p>Резервне живлення, сонячні електростанції, відеоспостереження, охоронна і пожежна сигналізація, контроль доступу, домофонія, комп'ютерні мережі та розумний будинок — для квартир, котеджів та офісів по всій Україні.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    Замовити консультацію
+                </a>
+                <a href="#services" class="btn btn-outline">Дізнатися більше</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="sun-icon" id="sunIcon">
+                <svg class="sun-core" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="sun-rotate">
+                    <!-- Central sun -->
+                    <circle cx="150" cy="150" r="38" fill="#f59e0b" opacity="0.9"/>
+                    <circle cx="150" cy="150" r="32" fill="#fbbf24" opacity="0.3"/>
+                    <circle cx="150" cy="150" r="48" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.3"/>
+
+                    <!-- Inner solar panel symbol -->
+                    <rect x="132" y="132" width="36" height="36" rx="4" fill="#0f172a" stroke="#fbbf24" stroke-width="2" opacity="0.95"/>
+                    <line x1="132" y1="141" x2="168" y2="141" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+                    <line x1="132" y1="150" x2="168" y2="150" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+                    <line x1="132" y1="159" x2="168" y2="159" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+                    <line x1="141" y1="132" x2="141" y2="168" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+                    <line x1="150" y1="132" x2="150" y2="168" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+                    <line x1="159" y1="132" x2="159" y2="168" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+
+                    <!-- Ray 1 (up) + Icon: Інвертори резервного живлення -->
+                    <line x1="150" y1="105" x2="150" y2="56" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="150" data-cy="26">
+                        <circle cx="150" cy="26" r="16" fill="rgba(15,23,42,0.85)" stroke="#f59e0b" stroke-width="1.5"/>
+                        <path d="M151 18L144 28h5l-1 6 7-10h-5l1-6z" fill="#f59e0b"/>
+                    </g>
+
+                    <!-- Ray 2 (up-right, 45°) + Icon: Сервіс та обслуговування -->
+                    <line x1="182" y1="118" x2="210" y2="90" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="232" data-cy="64">
+                        <circle cx="232" cy="64" r="16" fill="rgba(15,23,42,0.85)" stroke="#f59e0b" stroke-width="1.5"/>
+                        <path d="M234.7 58.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l2.77-2.77a4.5 4.5 0 01-5.94 5.94l-5.73 5.73a1.5 1.5 0 01-2.12-2.12l5.66-5.66a4.5 4.5 0 015.94-5.94l-3.58 1.82z" fill="none" stroke="#f59e0b" stroke-width="1.3"/>
+                    </g>
+
+                    <!-- Ray 3 (right, 90°) + Icon: Відеоспостереження -->
+                    <line x1="195" y1="150" x2="233" y2="150" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="263" data-cy="150">
+                        <circle cx="263" cy="150" r="16" fill="rgba(15,23,42,0.85)" stroke="#3b82f6" stroke-width="1.5"/>
+                        <rect x="254" y="144" width="12" height="11" rx="2" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+                        <polygon points="266,147 272,143.5 272,156.5 266,153" fill="none" stroke="#3b82f6" stroke-width="1.3"/>
+                    </g>
+
+                    <!-- Ray 4 (down-right, 135°) + Icon: Охоронна сигналізація -->
+                    <line x1="182" y1="182" x2="210" y2="210" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="232" data-cy="232">
+                        <circle cx="232" cy="232" r="16" fill="rgba(15,23,42,0.85)" stroke="#10b981" stroke-width="1.5"/>
+                        <path d="M232 223l-8 4v5c0 5.25 3.4 10.2 8 11.1 4.6-.9 8-5.85 8-11.1v-5l-8-4z" fill="none" stroke="#10b981" stroke-width="1.5"/>
+                        <polyline points="228,232 230.5,234.5 236,229" stroke="#10b981" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+
+                    <!-- Ray 5 (down, 180°) + Icon: Wi-Fi та мережі -->
+                    <line x1="150" y1="195" x2="150" y2="244" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="150" data-cy="274">
+                        <circle cx="150" cy="274" r="16" fill="rgba(15,23,42,0.85)" stroke="#3b82f6" stroke-width="1.5"/>
+                        <path d="M150 280l0 0" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M146 276.5a5 5 0 018 0" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M143 273a9 9 0 0114 0" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- Ray 6 (down-left, 225°) + Icon: Пожежна безпека -->
+                    <line x1="118" y1="182" x2="90" y2="210" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="68" data-cy="232">
+                        <circle cx="68" cy="232" r="16" fill="rgba(15,23,42,0.85)" stroke="#ef4444" stroke-width="1.5"/>
+                        <path d="M68 223c0 0-6 6-6 11a6 6 0 0012 0c0-5-6-11-6-11z" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+                        <path d="M68 232c0 0-2.5 2.5-2.5 4.5a2.5 2.5 0 005 0c0-2-2.5-4.5-2.5-4.5z" fill="#ef4444" opacity="0.5"/>
+                    </g>
+
+                    <!-- Ray 7 (left, 270°) + Icon: Контроль доступу та домофонія -->
+                    <line x1="105" y1="150" x2="67" y2="150" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="37" data-cy="150">
+                        <circle cx="37" cy="150" r="16" fill="rgba(15,23,42,0.85)" stroke="#8b5cf6" stroke-width="1.5"/>
+                        <rect x="30" y="149" width="14" height="10" rx="2" fill="none" stroke="#8b5cf6" stroke-width="1.5"/>
+                        <path d="M33 149v-3a4 4 0 018 0v3" fill="none" stroke="#8b5cf6" stroke-width="1.5"/>
+                        <circle cx="37" cy="154" r="1.5" fill="#8b5cf6"/>
+                    </g>
+
+                    <!-- Ray 8 (up-left, 315°) + Icon: Розумний будинок -->
+                    <line x1="118" y1="118" x2="90" y2="90" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+                    <g class="ray-icon" data-cx="64" data-cy="64">
+                        <circle cx="64" cy="64" r="16" fill="rgba(15,23,42,0.85)" stroke="#f59e0b" stroke-width="1.5"/>
+                        <path d="M57 68l7-7 7 7v7a1 1 0 01-1 1h-12a1 1 0 01-1-1v-7z" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+                        <circle cx="64" cy="71" r="1.5" fill="#f59e0b" opacity="0.7"/>
+                        <path d="M67.5 66a5 5 0 010 5" stroke="#f59e0b" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.6"/>
+                    </g>
+                </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar">
+    <div class="stats-container">
+        <div class="stat-item">
+            <span class="stat-number" data-target="500">0</span>
+            <span class="stat-label">Виконаних проєктів</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="8">0</span>
+            <span class="stat-label">Років досвіду</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="2000">0</span>
+            <span class="stat-label">кВт встановленої потужності</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="2">0</span>
+            <span class="stat-label">Роки гарантії на монтаж</span>
+        </div>
+    </div>
+</div>
+
+<!-- Promo Banner -->
+<section style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 2.5rem 2rem; text-align: center;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <h2 style="color: #0f172a; font-size: 1.6rem; font-weight: 800; margin-bottom: 0.8rem;">Акційна пропозиція</h2>
+        <p style="color: #1e293b; font-size: 1.15rem; line-height: 1.7;">
+            При замовленні обладнання у нас — <strong>гарантія</strong>, <strong>безкоштовна доставка</strong>, <strong>монтаж під ключ</strong> та <strong>знижки на монтаж до 10%!</strong>
+        </p>
+        <a href="#pricing" class="btn" style="background: #0f172a; color: #f59e0b; margin-top: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">Переглянути тарифи</a>
+    </div>
+</section>
+
+<!-- Services -->
+<section class="section section-dark" id="services">
+    <div class="section-header">
+        <span class="section-tag">Наші послуги</span>
+        <h2>Комплексні рішення для квартир, котеджів та офісів</h2>
+        <p>Енергонезалежність та інженерні системи — від консультації до запуску "під ключ"</p>
+    </div>
+    <div class="services-tabs">
+        <button class="tab-btn active" data-tab="energy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Енергетика
+        </button>
+        <button class="tab-btn" data-tab="engineering">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Інженерні системи
+        </button>
+    </div>
+
+    <div class="services-container" style="max-width:1200px;margin:0 auto;">
+        <!-- Tab 1: Енергетика -->
+        <div class="tab-content active" id="tab-energy">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <h3>Інвертори резервного живлення</h3>
+                <p>Встановлення інверторних систем для безперебійного живлення вашого дому під час відключень електроенергії.</p>
+                <ul>
+                    <li>Гібридні інвертори</li>
+                    <li>Автономні інвертори</li>
+                    <li>Мережеві інвертори</li>
+                    <li>Акумуляторні системи</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </div>
+                <h3>Сонячні електростанції</h3>
+                <p>Проєктування та монтаж сонячних панелей для приватних будинків з максимальною ефективністю.</p>
+                <ul>
+                    <li>Монокристалічні панелі</li>
+                    <li>Проєктування під дах</li>
+                    <li>Наземні конструкції</li>
+                    <li>Підключення до мережі</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="1" y="6" width="22" height="12" rx="2"/><line x1="6" y1="6" x2="6" y2="18"/><line x1="18" y1="6" x2="18" y2="18"/><line x1="23" y1="10" x2="23" y2="14"/></svg>
+                </div>
+                <h3>Системи накопичення енергії</h3>
+                <p>Встановлення літій-іонних та LiFePO4 акумуляторних батарей для зберігання енергії.</p>
+                <ul>
+                    <li>LiFePO4 батареї</li>
+                    <li>Літій-іонні АКБ</li>
+                    <li>Системи моніторингу</li>
+                    <li>Розширення потужності</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <h3>Сервіс та обслуговування</h3>
+                <p>Технічне обслуговування, діагностика та ремонт сонячних електростанцій та інверторних систем.</p>
+                <ul>
+                    <li>Планове ТО</li>
+                    <li>Діагностика системи</li>
+                    <li>Заміна компонентів</li>
+                    <li>Модернізація</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <h3>Проєктування та документація</h3>
+                <p>Розробка проєктів, підготовка документації та підбір обладнання для вашого об'єкта.</p>
+                <ul>
+                    <li>Проєктна документація</li>
+                    <li>Енергоаудит</li>
+                    <li>Підбір обладнання</li>
+                    <li>Технічний супровід</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tab 2: Інженерні системи -->
+        <div class="tab-content" id="tab-engineering">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </div>
+                <h3>Відеоспостереження</h3>
+                <p>Професійний монтаж систем IP-відеоспостереження для приватних будинків та котеджів із віддаленим доступом.</p>
+                <ul>
+                    <li>IP-камери та відеореєстратори</li>
+                    <li>Віддалений доступ через смартфон</li>
+                    <li>Нічне бачення</li>
+                    <li>Хмарний запис та архів</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Охоронна сигналізація та дротові системи</h3>
+                <p>Встановлення бездротових та дротових систем охоронної сигналізації Ajax та аналогів із миттєвим сповіщенням.</p>
+                <ul>
+                    <li>Бездротові датчики Ajax</li>
+                    <li>Дротові охоронні системи</li>
+                    <li>Захист від вторгнень</li>
+                    <li>Сповіщення на телефон</li>
+                    <li>Підключення до охоронної компанії</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+                </div>
+                <h3>Wi-Fi та комп'ютерні мережі</h3>
+                <p>Побудова Mesh Wi-Fi покриття та структурованих кабельних мереж для будинків будь-якої площі.</p>
+                <ul>
+                    <li>Mesh Wi-Fi</li>
+                    <li>Структурована кабельна мережа</li>
+                    <li>Комунікаційні шафи</li>
+                    <li>Налаштування під ключ</li>
+                </ul>
+            </div>
+            <div class="service-card" style="border-color: var(--primary); box-shadow: 0 4px 25px rgba(245,158,11,0.2); background: linear-gradient(135deg, #fffbeb, #ffffff);">
+                <div class="service-icon" style="background: rgba(239,68,68,0.1);">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+                </div>
+                <h3>Пожежна безпека та захист від затоплення</h3>
+                <p>Системи раннього виявлення пожежі, витоку газу та протікання води з автоматичним реагуванням.</p>
+                <ul>
+                    <li>Датчики диму та температури</li>
+                    <li>Датчики газу</li>
+                    <li>Датчики протікання води</li>
+                    <li>Автоматичне перекриття водопроводу</li>
+                </ul>
+            </div>
+            <div class="service-card" style="border-color: var(--primary); box-shadow: 0 4px 25px rgba(245,158,11,0.2); background: linear-gradient(135deg, #fffbeb, #ffffff);">
+                <div class="service-icon" style="background: rgba(139,92,246,0.1);">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+                </div>
+                <h3>Контроль доступу та домофонія</h3>
+                <p>Системи контролю доступу, відеодомофони та автоматизація воріт для безпечного входу на територію.</p>
+                <ul>
+                    <li>Електрозамки та відеодомофони</li>
+                    <li>Розпізнавання номерних знаків</li>
+                    <li>Управління воротами</li>
+                    <li>Безключовий доступ</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><circle cx="12" cy="14" r="2"/><path d="M16.24 7.76a6 6 0 010 8.49"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
+                </div>
+                <h3>Розумний будинок</h3>
+                <p>Автоматизація інженерних систем будинку із зручним керуванням через мобільний додаток або голосом.</p>
+                <ul>
+                    <li>Автоматизація освітлення та клімату</li>
+                    <li>Керування ролетами та шторами</li>
+                    <li>Розумні розетки та вимикачі</li>
+                    <li>Керування через мобільний додаток</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits -->
+<section class="section" id="benefits">
+    <div class="section-header">
+        <span class="section-tag">Чому ми</span>
+        <h2>Переваги роботи з нами</h2>
+        <p>Ми поєднуємо досвід, якість обладнання та індивідуальний підхід</p>
+    </div>
+    <div class="benefits-grid">
+        <div class="benefit-card">
+            <div class="benefit-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+                <h3>Гарантія від 1 до 2+ років</h3>
+                <p>Надаємо офіційну гарантію на монтажні роботи та обладнання залежно від обраного пакету послуг.</p>
+            </div>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div>
+                <h3>Сертифіковані спеціалісти</h3>
+                <p>Наші інженери мають сертифікати від провідних виробників обладнання та відповідну кваліфікацію.</p>
+            </div>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+            </div>
+            <div>
+                <h3>Преміум та бюджетне обладнання</h3>
+                <p>Енергетика: Huawei, Growatt, Deye, Fronius, JA Solar, Longi, Solis, Megarevo. Бюджетні: Must, Sungrow, Sako та ін. Слаботочка: Hikvision, Dahua, TVT, Ajax, Satel, Оріон, MikroTik та ін.</p>
+            </div>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+                <h3>Швидкий монтаж</h3>
+                <p>Виконуємо монтаж під ключ від 1 до 3 днів залежно від складності проєкту.</p>
+            </div>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            <div>
+                <h3>Прозорі ціни</h3>
+                <p>Фіксована вартість без прихованих платежів. Детальний кошторис до початку робіт.</p>
+            </div>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div>
+                <h3>Підтримка 7 днів на тиждень</h3>
+                <p>Технічна підтримка та консультації доступні щодня з 08:00 до 20:00 для наших клієнтів.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process -->
+<section class="section section-dark" id="process">
+    <div class="section-header">
+        <span class="section-tag">Етапи роботи</span>
+        <h2>Як ми працюємо</h2>
+        <p>Від першого дзвінка до запуску системи — чіткий і прозорий процес</p>
+    </div>
+    <div class="process-grid">
+        <div class="process-step">
+            <div class="step-number">1</div>
+            <h3>Консультація</h3>
+            <p>Безкоштовна оцінка потреб та підбір оптимального рішення</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">2</div>
+            <h3>Проєктування</h3>
+            <p>Розробка проєкту з урахуванням особливостей вашого об'єкта</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">3</div>
+            <h3>Монтаж</h3>
+            <p>Професійна установка обладнання сертифікованою бригадою</p>
+        </div>
+        <div class="process-step">
+            <div class="step-number">4</div>
+            <h3>Запуск</h3>
+            <p>Налаштування, тестування та введення системи в експлуатацію</p>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="pricing">
+    <div class="section-header">
+        <span class="section-tag">Тарифи</span>
+        <h2>Пакети послуг</h2>
+        <p>Оберіть оптимальне рішення для вашого бюджету та потреб</p>
+    </div>
+    <div class="pricing-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="pricing-card">
+            <h3>Базовий</h3>
+            <p style="color: var(--gray); font-size: 0.9rem;">Резервне живлення</p>
+            <div class="price">від 14 000 <small>грн</small></div>
+            <ul>
+                <li>Інвертор 1 фазний до 3 кВт</li>
+                <li>Монтаж та налаштування</li>
+                <li>Автоматичне перемикання</li>
+                <li>Гарантія 1 рік</li>
+            </ul>
+            <p style="color: var(--green); font-size: 0.8rem; margin-top: 1rem; text-align: center; font-weight: 600;">При замовленні обладнання у нас — гарантія, безкоштовна доставка, монтаж під ключ та знижки на монтаж до 10%!</p>
+            <a href="#contact" class="btn btn-outline" style="width: 100%; justify-content: center; color: var(--dark); border-color: var(--gray-light); margin-top: 1rem;">Замовити</a>
+        </div>
+        <div class="pricing-card featured">
+            <h3>Оптимальний</h3>
+            <p style="color: var(--gray); font-size: 0.9rem;">3 фазна система</p>
+            <div class="price">від 18 000 <small>грн</small></div>
+            <ul>
+                <li>Інвертор 3 фазний 5 кВт</li>
+                <li>АКБ LiFePO4 5 кВт*год</li>
+                <li>Моніторинг через додаток</li>
+                <li>Гарантія 1 рік</li>
+            </ul>
+            <p style="color: var(--green); font-size: 0.8rem; margin-top: 1rem; text-align: center; font-weight: 600;">При замовленні обладнання у нас — гарантія, безкоштовна доставка, монтаж під ключ та знижки на монтаж до 10%!</p>
+            <a href="#contact" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Замовити</a>
+        </div>
+        <div class="pricing-card">
+            <h3>Максимальний</h3>
+            <p style="color: var(--gray); font-size: 0.9rem;">Повна автономія</p>
+            <div class="price">від 50 000 <small>грн</small></div>
+            <ul>
+                <li>Інвертор від 8 кВт</li>
+                <li>Сонячні панелі 10+ кВт</li>
+                <li>АКБ від 10 кВт*год</li>
+                <li>Повна автономія</li>
+                <li>Гарантія 2 роки + ТО</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline" style="width: 100%; justify-content: center; color: var(--dark); border-color: var(--gray-light);">Замовити</a>
+        </div>
+        <div class="pricing-card">
+            <h3>Інженерні системи</h3>
+            <p style="color: var(--gray); font-size: 0.9rem;">Слаботочні рішення</p>
+            <div class="price">від 5 000 <small>грн</small></div>
+            <ul>
+                <li>Відеоспостереження</li>
+                <li>Охоронна сигналізація</li>
+                <li>Комп'ютерні мережі / Wi-Fi</li>
+                <li>Розумний будинок</li>
+                <li>Гарантія 1 рік</li>
+            </ul>
+            <p style="color: var(--green); font-size: 0.8rem; margin-top: 1rem; text-align: center; font-weight: 600;">При замовленні обладнання у нас — гарантія, безкоштовна доставка, монтаж під ключ та знижки на монтаж до 10%!</p>
+            <a href="#contact" class="btn btn-outline" style="width: 100%; justify-content: center; color: var(--dark); border-color: var(--gray-light); margin-top: 1rem;">Замовити</a>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio -->
+<section class="section section-dark" id="portfolio">
+    <div class="section-header">
+        <span class="section-tag">Портфоліо</span>
+        <h2>Наші виконані роботи</h2>
+        <p>Реальні проєкти для квартир, котеджів та офісів по всій Україні</p>
+    </div>
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;" class="portfolio-grid">
+        <div style="background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-light); box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+            <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #334155); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div style="padding: 1.2rem;"><h4 style="font-size: 1rem; color: var(--dark); margin-bottom: 0.3rem;">Резервне живлення котеджу</h4><p style="color: var(--gray); font-size: 0.85rem;">Інвертор 5 кВт + АКБ 10 кВт*год</p></div>
+        </div>
+        <div style="background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-light); box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+            <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #334155); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+            </div>
+            <div style="padding: 1.2rem;"><h4 style="font-size: 1rem; color: var(--dark); margin-bottom: 0.3rem;">Сонячна електростанція 10 кВт</h4><p style="color: var(--gray); font-size: 0.85rem;">Приватний будинок, Київська обл.</p></div>
+        </div>
+        <div style="background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-light); box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+            <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #334155); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <div style="padding: 1.2rem;"><h4 style="font-size: 1rem; color: var(--dark); margin-bottom: 0.3rem;">Система відеоспостереження</h4><p style="color: var(--gray); font-size: 0.85rem;">8 IP-камер, котедж</p></div>
+        </div>
+        <div style="background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-light); box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+            <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #334155); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div style="padding: 1.2rem;"><h4 style="font-size: 1rem; color: var(--dark); margin-bottom: 0.3rem;">Охоронна сигналізація Ajax</h4><p style="color: var(--gray); font-size: 0.85rem;">Комплексне рішення для офісу</p></div>
+        </div>
+        <div style="background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-light); box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+            <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #334155); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+            </div>
+            <div style="padding: 1.2rem;"><h4 style="font-size: 1rem; color: var(--dark); margin-bottom: 0.3rem;">Комп'ютерна мережа, Mesh Wi-Fi</h4><p style="color: var(--gray); font-size: 0.85rem;">Приватний будинок 250 м2</p></div>
+        </div>
+        <div style="background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--gray-light); box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+            <div style="height: 200px; background: linear-gradient(135deg, #1e293b, #334155); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 3rem;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><circle cx="12" cy="14" r="2"/><path d="M16.24 7.76a6 6 0 010 8.49"/></svg>
+            </div>
+            <div style="padding: 1.2rem;"><h4 style="font-size: 1rem; color: var(--dark); margin-bottom: 0.3rem;">Розумний будинок</h4><p style="color: var(--gray); font-size: 0.85rem;">Автоматизація всіх систем</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Calculator -->
+<section class="section" id="calculator">
+    <div class="section-header">
+        <span class="section-tag">Калькулятор</span>
+        <h2>Калькулятор резервного живлення</h2>
+        <p>Оберіть прилади, які потрібно живити під час відключення, і дізнайтеся потрібну потужність системи</p>
+    </div>
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div style="background: var(--white); border-radius: 16px; padding: 2.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid var(--gray-light);">
+            <div id="calcDevices">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;" class="calc-grid">
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="100" data-name="Освітлення" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Освітлення</strong><br><small style="color:var(--gray);">~100 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="200" data-name="Холодильник" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Холодильник</strong><br><small style="color:var(--gray);">~200 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="150" data-name="Телевізор" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Телевізор</strong><br><small style="color:var(--gray);">~150 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="80" data-name="Роутер/інтернет" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Роутер / Інтернет</strong><br><small style="color:var(--gray);">~80 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="300" data-name="Ноутбук/комп'ютер" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Ноутбук / Комп'ютер</strong><br><small style="color:var(--gray);">~300 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="2000" data-name="Бойлер" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Бойлер</strong><br><small style="color:var(--gray);">~2000 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="100" data-name="Газовий котел" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Газовий котел</strong><br><small style="color:var(--gray);">~100 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="800" data-name="Пральна машина" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Пральна машина</strong><br><small style="color:var(--gray);">~800 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="50" data-name="Зарядка телефону" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Зарядка телефону</strong><br><small style="color:var(--gray);">~50 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="1500" data-name="Кондиціонер" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Кондиціонер</strong><br><small style="color:var(--gray);">~1500 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="1500" data-name="Тепла підлога" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Тепла підлога</strong><br><small style="color:var(--gray);">~1500 Вт</small></div>
+                    </label>
+                    <label style="display:flex;align-items:center;gap:0.8rem;padding:1rem;border:2px solid var(--gray-light);border-radius:10px;cursor:pointer;transition:border-color 0.3s;" class="calc-device">
+                        <input type="checkbox" data-watt="3500" data-name="Електроплита" style="width:20px;height:20px;accent-color:#f59e0b;">
+                        <div><strong>Електроплита</strong><br><small style="color:var(--gray);">~3500 Вт</small></div>
+                    </label>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="font-weight: 600; color: var(--dark); display: block; margin-bottom: 0.5rem;">Бажаний час автономної роботи (годин):</label>
+                    <input type="range" id="calcHours" min="1" max="24" value="6" style="width: 100%; accent-color: #f59e0b;">
+                    <div style="display: flex; justify-content: space-between; color: var(--gray); font-size: 0.85rem;"><span>1 год</span><span id="calcHoursVal" style="font-weight:700;color:var(--primary-dark);">6 год</span><span>24 год</span></div>
+                </div>
+            </div>
+            <div id="calcResult" style="background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 12px; padding: 2rem; text-align: center; color: white;">
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 0.5rem;">Необхідна потужність інвертора:</p>
+                <p style="font-size: 2.2rem; font-weight: 800; color: #f59e0b;" id="calcPower">0 Вт</p>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 1rem; margin-bottom: 0.5rem;">Рекомендована ємність АКБ:</p>
+                <p style="font-size: 1.5rem; font-weight: 700; color: #10b981;" id="calcBattery">0 кВт*год</p>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 1rem;" id="calcRecommendation"></p>
+                <a href="#contact" class="btn btn-primary" style="margin-top: 1.5rem;">Замовити розрахунок</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-dark" id="faq">
+    <div class="section-header">
+        <span class="section-tag">Питання</span>
+        <h2>Часті запитання</h2>
+        <p>Відповіді на найпопулярніші питання наших клієнтів</p>
+    </div>
+    <div class="faq-list">
+        <div class="faq-item">
+            <button class="faq-question">
+                Скільки сонячних панелей потрібно для будинку?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Кількість панелей залежить від вашого споживання електроенергії. Для середнього будинку з місячним споживанням 300-500 кВт*год достатньо системи на 5-8 кВт, що складає 10-16 панелей потужністю 500 Вт кожна. Ми проведемо безкоштовний аналіз вашого споживання та запропонуємо оптимальне рішення.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Чи працює система під час відключення світла?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Так, саме для цього встановлюється гібридний або автономний інвертор з акумуляторними батареями. При зникненні електроенергії в мережі система автоматично перемикається на живлення від АКБ за 10-20 мілісекунд — ви навіть не помітите відключення.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Який термін окупності сонячних панелей?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Термін окупності залежить від потужності системи, тарифу на електроенергію та регіону. В середньому для України це 4-7 років. Термін служби панелей — 25-30 років, тому після окупності ви отримуєте безкоштовну електроенергію.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Яке обладнання ви використовуєте?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Ми працюємо з провідними світовими виробниками: інвертори Huawei, Growatt, Deye, Fronius, Solis, Megarevo; сонячні панелі JA Solar, Longi, Trina Solar; акумулятори BYD, Pylontech, Dyness. Також монтуємо бюджетні бренди: Must, Sungrow, Sako та інші. Все обладнання має офіційну гарантію виробника.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Чи потрібні спеціальні дозволи для встановлення?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Для приватного будинку з системою до 30 кВт спеціальних дозволів не потрібно. Ми допоможемо з усією необхідною документацією та узгодженнями для вашого об'єкта.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Які слаботочні системи ви встановлюєте?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Ми встановлюємо повний спектр інженерних слаботочних систем для котеджів та приватних будинків: IP-відеоспостереження, охоронну та пожежну сигналізацію (Ajax та аналоги), структуровані комп'ютерні мережі та Mesh Wi-Fi, системи контролю доступу та відеодомофонію, захист від затоплення, а також комплексні рішення «розумний будинок». Всі системи інтегруються між собою та керуються через мобільний додаток.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                Чи можна інтегрувати сигналізацію з розумним будинком?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Так, сучасні системи охоронної сигналізації (наприклад, Ajax) підтримують інтеграцію з платформами розумного будинку. Це дозволяє автоматично вмикати охоронний режим при виході з дому, отримувати сповіщення на смартфон, керувати датчиками разом з освітленням та кліматом з єдиного додатку. Ми проєктуємо системи так, щоб всі компоненти працювали як єдине ціле.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">
+                З яким слаботочним обладнанням ви працюєте?
+                <span class="arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer">
+                <p>Ми працюємо з провідними брендами слаботочного обладнання: відеоспостереження — Hikvision, Dahua, TVT; охоронна та пожежна сигналізація — Ajax, Satel, Оріон; мережеве обладнання — MikroTik. Підбираємо оптимальне рішення під бюджет та задачі клієнта — від бюджетних до преміум варіантів. Все обладнання має офіційну гарантію виробника.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section class="section contact-section" id="contact">
+    <div class="section-header">
+        <span class="section-tag">Зв'язок</span>
+        <h2>Замовити консультацію</h2>
+        <p>Залиште заявку і ми зв'яжемося з вами протягом 30 хвилин</p>
+    </div>
+    <div class="contact-grid">
+        <div class="contact-info">
+            <div class="contact-item">
+                <div class="contact-item-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                </div>
+                <div>
+                    <h4>Телефон</h4>
+                    <p><a href="tel:+380501234567">+38 (050) 123-45-67</a></p>
+                    <p><a href="tel:+380671234567">+38 (067) 123-45-67</a></p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-item-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div>
+                    <h4>Email</h4>
+                    <p><a href="mailto:info@solarpro.ua">info@solarpro.ua</a></p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-item-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                    <h4>Адреса</h4>
+                    <p>м. Київ, вул. Сонячна, 1</p>
+                    <p>Працюємо по всій Україні</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-item-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div>
+                    <h4>Графік роботи</h4>
+                    <p>Щодня: 08:00 - 20:00</p>
+                    <p>7 днів на тиждень</p>
+                </div>
+            </div>
+        </div>
+        <form class="contact-form" id="contactForm">
+            <div class="form-row">
+                <input type="text" name="name" placeholder="Ваше ім'я *" required>
+                <input type="tel" name="phone" placeholder="Телефон *" required>
+            </div>
+            <input type="email" name="email" placeholder="Email">
+            <select name="service" required>
+                <option value="" disabled selected>Оберіть послугу *</option>
+                <optgroup label="Енергетика">
+                    <option value="inverter">Інвертор резервного живлення</option>
+                    <option value="solar">Сонячна електростанція</option>
+                    <option value="hybrid">Гібридна система</option>
+                    <option value="battery">Система накопичення енергії</option>
+                    <option value="service">Сервіс та обслуговування</option>
+                </optgroup>
+                <optgroup label="Інженерні системи">
+                    <option value="cctv">Відеоспостереження</option>
+                    <option value="alarm">Охоронна сигналізація</option>
+                    <option value="fire">Пожежна сигналізація</option>
+                    <option value="access">Контроль доступу</option>
+                    <option value="intercom">Домофонія</option>
+                    <option value="gates">Автоматика для воріт</option>
+                    <option value="network">Wi-Fi та мережі</option>
+                    <option value="smarthome">Розумний будинок</option>
+                    <option value="complex">Комплексне оснащення</option>
+                </optgroup>
+                <option value="consultation">Консультація</option>
+            </select>
+            <textarea name="message" placeholder="Опишіть ваші потреби (площа даху, місячне споживання, бажана потужність тощо)"></textarea>
+            <button type="submit" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Надіслати заявку
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2026 SolarPro — Енергетичні та інженерні системи. Всі права захищені. Працюємо по всій Україні.</p>
+</footer>
+
+<script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile menu
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Animated counters
+    const counters = document.querySelectorAll('.stat-number');
+    let countersStarted = false;
+
+    function animateCounters() {
+        counters.forEach(counter => {
+            const target = +counter.dataset.target;
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const update = () => {
+                current += step;
+                if (current < target) {
+                    counter.textContent = Math.floor(current) + '+';
+                    requestAnimationFrame(update);
+                } else {
+                    counter.textContent = target + '+';
+                }
+            };
+            update();
+        });
+    }
+
+    const statsObserver = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !countersStarted) {
+            countersStarted = true;
+            animateCounters();
+        }
+    }, { threshold: 0.5 });
+
+    const statsBar = document.querySelector('.stats-bar');
+    if (statsBar) statsObserver.observe(statsBar);
+
+    // Service tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Show corresponding tab content
+            const tabId = 'tab-' + btn.dataset.tab;
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            const activeTab = document.getElementById(tabId);
+            activeTab.classList.add('active');
+
+            // Apply scroll-reveal to newly visible cards
+            activeTab.querySelectorAll('.service-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                revealObserver.observe(card);
+            });
+        });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+            const isActive = item.classList.contains('active');
+
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
+    });
+
+    // Form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const btn = this.querySelector('button[type="submit"]');
+        const originalHTML = btn.innerHTML;
+
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Заявку надіслано!';
+        btn.style.background = '#10b981';
+
+        setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.style.background = '';
+            this.reset();
+        }, 3000);
+    });
+
+    // Calculator logic
+    const calcCheckboxes = document.querySelectorAll('#calcDevices input[type="checkbox"]');
+    const calcHours = document.getElementById('calcHours');
+    const calcHoursVal = document.getElementById('calcHoursVal');
+    const calcPower = document.getElementById('calcPower');
+    const calcBattery = document.getElementById('calcBattery');
+    const calcRecommendation = document.getElementById('calcRecommendation');
+
+    function updateCalc() {
+        let totalWatt = 0;
+        calcCheckboxes.forEach(cb => {
+            if (cb.checked) {
+                totalWatt += parseInt(cb.dataset.watt);
+                cb.closest('label').style.borderColor = '#f59e0b';
+                cb.closest('label').style.background = 'rgba(245,158,11,0.05)';
+            } else {
+                cb.closest('label').style.borderColor = '#e2e8f0';
+                cb.closest('label').style.background = '';
+            }
+        });
+        const hours = parseInt(calcHours.value);
+        calcHoursVal.textContent = hours + ' год';
+        const batteryKwh = (totalWatt * hours / 1000).toFixed(1);
+
+        calcPower.textContent = totalWatt > 0 ? totalWatt + ' Вт (' + (totalWatt / 1000).toFixed(1) + ' кВт)' : '0 Вт';
+        calcBattery.textContent = batteryKwh + ' кВт*год';
+
+        if (totalWatt === 0) {
+            calcRecommendation.textContent = 'Оберіть прилади для розрахунку';
+        } else if (totalWatt <= 3000) {
+            calcRecommendation.textContent = 'Рекомендуємо: пакет "Базовий" — інвертор 1 фазний до 3 кВт';
+        } else if (totalWatt <= 5000) {
+            calcRecommendation.textContent = 'Рекомендуємо: пакет "Оптимальний" — інвертор 3 фазний 5 кВт';
+        } else {
+            calcRecommendation.textContent = 'Рекомендуємо: пакет "Максимальний" — інвертор від 8 кВт';
+        }
+    }
+
+    calcCheckboxes.forEach(cb => cb.addEventListener('change', updateCalc));
+    calcHours.addEventListener('input', updateCalc);
+    updateCalc();
+
+    // Scroll reveal animation
+    const revealElements = document.querySelectorAll('.tab-content.active .service-card, .benefit-card, .process-step, .pricing-card');
+
+    const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    revealElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        revealObserver.observe(el);
+    });
+
+    // Rotate sun + counter-rotate icons (single JS loop = perfect sync)
+    (function() {
+        const sunGroup = document.getElementById('sun-rotate');
+        const rayIcons = document.querySelectorAll('.ray-icon');
+        if (!sunGroup || rayIcons.length === 0) return;
+
+        const duration = 30000; // 30s full rotation
+
+        function update(timestamp) {
+            const angle = (timestamp % duration) / duration * 360;
+
+            // Rotate entire sun group around center (150,150)
+            sunGroup.setAttribute('transform', 'rotate(' + angle + ', 150, 150)');
+
+            // Counter-rotate each icon around its own center to keep upright
+            rayIcons.forEach(function(icon) {
+                var cx = parseFloat(icon.getAttribute('data-cx'));
+                var cy = parseFloat(icon.getAttribute('data-cy'));
+                icon.setAttribute('transform', 'rotate(' + (-angle) + ', ' + cx + ', ' + cy + ')');
+            });
+
+            requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+    })();
+
+</script>
+
+</body>
+</html>
