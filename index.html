@@ -26,6 +26,7 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
@@ -33,10 +34,7 @@
             color: var(--dark);
             line-height: 1.6;
             overflow-x: hidden;
-        }
-
-        html {
-            overflow-x: hidden;
+            max-width: 100vw;
         }
 
         /* ── Navigation ── */
@@ -148,7 +146,7 @@
             background-position: center;
             display: flex;
             align-items: center;
-            padding: 0 2rem;
+            padding: 80px 2rem 2rem;
             position: relative;
             overflow: hidden;
         }
@@ -921,6 +919,10 @@
                 display: flex;
             }
 
+            .logo small {
+                display: none;
+            }
+
             .services-grid,
             .benefits-grid,
             .tab-content.active {
@@ -965,11 +967,15 @@
             }
 
             .hero-text h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
             }
 
             .hero {
-                padding: 0 1rem;
+                padding: 80px 1rem 2rem;
             }
 
             .navbar {
@@ -978,6 +984,10 @@
 
             .section {
                 padding: 3rem 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
             }
 
             .btn {
@@ -992,6 +1002,17 @@
 
             .hero-buttons .btn {
                 justify-content: center;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .hero::before {
+                width: 300px;
+                height: 300px;
+                right: -10%;
+                top: -30%;
             }
         }
 
@@ -1018,6 +1039,31 @@
 
             .stats-container {
                 grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-text p {
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 80px 0.75rem 1.5rem;
+            }
+
+            .section {
+                padding: 2.5rem 0.75rem;
+            }
+
+            .navbar {
+                padding: 0 0.75rem;
+            }
+
+            .btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.85rem;
             }
         }
     </style>
